@@ -1,0 +1,40 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header",{pagename: "Journal"})%>
+    </header>
+    <main>
+        <br>
+        <h1 style="text-align: center;">Journal Entries</h1>
+        <br>
+        <div style="text-align: center;">
+            <a href="/add-journal"><button>Add Entry</button></a>
+        </div>
+        <br>
+        <h2 style="text-align: center;">Previous Entries</h2>
+        <% if(journal.length > 0) { %>
+            <br>
+            <% journal.forEach(item => { %>
+
+                <div class="card" onclick="window.location.href='/journal-entry/<%= item.datetime %>'">
+                    <div style="display: grid; grid-template-columns: 3fr 1fr; align-items: center;">
+                        <h2><%= item.title %></h2>
+                        <div>
+                            <small><%= new Date(item.datetime).toLocaleDateString('en-US', { weekday: 'long' }) %></small>
+                            <small><%= new Date(item.datetime).toLocaleDateString('en-US') %></small>
+                            <small><%= new Date(item.datetime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></small>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <br>
+            <p style="text-align: center;">No entires yet...</p>
+        <% } %>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 0})%>
+    </footer>
+</body>

@@ -1,0 +1,32 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: calendar[eventIndex].title})%>
+    </header>
+    <main>
+        <h1 style="text-align: center;">
+            <%= calendar[eventIndex].title %>
+        </h1>
+        <div style="margin: 12px">
+            <br>
+            <p>When: <%= new Date(calendar[eventIndex].datetime).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) %></p>
+            <br>
+            <p>Description: <%= calendar[eventIndex].description %></p>
+            <br>
+            <p>Location: <%= calendar[eventIndex].location %></p>
+            <br>
+            <% mapAddy= calendar[eventIndex].location%>
+            <iframe width="100%" height="300px" src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=<%= mapAddy%>&amp;ie=UTF8&amp;t=&amp;z=12&amp;iwloc=B&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br />
+            <br>
+            <br>
+            <div style="text-align: center;">
+                <a href="/remove-event/<%= eventIndex %>"><button>Delete Event</button></a>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 1})%>
+    </footer>
+</body>

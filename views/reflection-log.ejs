@@ -1,0 +1,61 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: "Reflections"})%>
+    </header>
+    <main>
+        <br>
+        <h1 style="text-align: center;">Reflections on <%= reflection %></h1>
+        <p style="text-align: center;">Reflect on your <%= reflection %></p>
+        <form action="/add-reflection/<%= reflection %>" method="POST" class="login-form">
+            <h2 style="text-align: center;">Log Reflection</h2>
+            <label for="title">Name Reflection</label>
+            <br>
+            <input type="text" name="title" id="title" placeholder="What I noticed" autocomplete="off" required>
+            <br>
+            <label for="reflection">Name Reflection</label>
+            <br>
+            <textarea name="reflection" id="reflection" required></textarea>
+            <div style="text-align: center;">
+                <button>Add Reflection</button>
+            </div>
+        </form>
+        <br>
+        <h3 style="text-align: center;">Previous Reflections</h3>
+        <%
+        const reflectionsMap = {
+            mood,
+            victories,
+            temptations,
+            growth
+        };
+        const theseReflections = reflectionsMap[reflection];
+        %>
+        <% if(theseReflections.length > 0) { %>
+            <% theseReflections.forEach(item => { %>
+            <div class="card">
+                <div style="display: grid; grid-template-columns: 3fr 1fr; align-items: center;">
+                    <div>
+                        <h2 style="margin-left: 8px;"><%= item.title %></h2>
+                    </div>
+                    <div>
+                        <small><%= new Date(item.datetime).toLocaleDateString('en-US', { weekday: 'long' }) %></small>
+                        <small><%= new Date(item.datetime).toLocaleDateString('en-US') %></small>
+                        <small><%= new Date(item.datetime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></small>
+                    </div>
+                </div>
+                <p style="margin: 6px"><%= item.text %></p>
+            </div>
+            <% }) %>
+        <% } else { %>
+            <br>
+            <p style="text-align: center;">No reflections yet...</p>
+        <% } %>
+
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 0})%>
+    </footer>
+</body>

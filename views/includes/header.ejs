@@ -1,0 +1,43 @@
+<% if(user) { %>
+    <div style="display: grid; grid-template-columns: 1fr 5fr 1fr;">
+        <div id="sideMenu" class="slide-menu">
+            <h2><%= user.name %>'s RenewYou</h2>
+            <a href="/">Home</a>
+            <a href="/calendar">Calendar</a>
+            <a href="/goals">Goals</a>
+            <a href="/journey">Journey</a>
+            <a href="/journal">Journal</a>
+            <a href="/todo">To-Do</a>
+            <a href="/reflections">Reflections</a>
+            <a href="/temptations">Temptations</a>
+            <a href="/emergency">Emergency</a>
+            <br>
+            <a href="/logout">Logout</a>
+        </div>
+        <div>
+            <div style="text-align: center;" class="icon-btn" onclick="toggleMenu()">
+                <ion-icon name="menu-outline" style="font-size: 4ch;" id="menuIcon"></ion-icon>
+            </div>
+        </div>
+        <div>
+            <h1><% if(typeof pagename === "undefined") { %>Home<% } else { %><%= pagename %><% } %></h1>
+        </div>
+        <div>
+            <div style="text-align: center;">
+                <ion-icon name="search-outline" style="font-size: 4ch;"></ion-icon>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('sideMenu');
+      const icon = document.getElementById('menuIcon');
+
+      const isOpen = menu.classList.toggle('open');
+
+      icon.setAttribute('name', isOpen ? 'close-outline' : 'menu-outline');
+    }
+  </script>
+<% } %>

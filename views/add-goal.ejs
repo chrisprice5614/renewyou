@@ -1,0 +1,313 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: "Add Goal"})%>
+    </header>
+    <main>
+        <br>
+        <div style="text-align: center;">
+            <h1>Create A Goal</h1>
+            <small>Let's create a new achievable goal.</small>
+        </div>
+        <div style="margin: 16px;">
+            <h2 style="text-align: center;">Good Goal Setting Tips</h2>
+            <br>
+            <h3>1. Make It Specific</h3>
+            <p>Avoid vague or ambigious goals such as "get healthier" or "be smarter." Instead, be clear and focused.</p>
+            <small>❌ "Exercise more."</small><br>
+            <small>✅ "Go to the gym 3 times a week. Each session must be at least 30 minutes."</small>
+            <br>
+            <br>
+            <h3>2. Make It Measureable</h3>
+            <p>Track your progress. Include numbers, deadlines, or benchmarks in your goal.</p>
+            <small>❌ "Read more."</small><br>
+            <small>✅ "Read 1 book per month."</small>
+            <br>
+            <br>
+            <h3>3. Make It Time Bound</h3>
+            <p>Set a clear timeframe to keep yourself accountable and motivated.</p>
+            <small>❌ "Write a story."</small><br>
+            <small>✅ "Finish a story by July 8th."</small>
+            <br>
+            <br>
+            <h3>4. Break it Into Steps</h3>
+            <p>Large goals can be overwhelming. Break them into smaller, more achievable tasks or milestones.</p>
+            <small>❌ "Launch a website."</small><br>
+            <small>✅ "Learn to Code, Buy a Domain, Write Webpages, Upload Code"</small>
+            <br>
+            <br>
+            <h3>5. Frame it Positively</h3>
+            <p>Focus on what you will do, not what you're avoiding, or quitting.</p>
+            <small>❌ "Stop drinking."</small><br>
+            <small>✅ "Redirect evening urges to writing music every night for a month."</small>
+            <br>
+            <br>
+            <h1 style="text-align: center;">Let's Set a Goal!</h1>
+            <p>The RenewYou app allows you to set several types of goals; From long-term to single day goals, you can customize your journey however you'd like!</p>
+            <br>
+            <h2 style="text-align: center;">Choose Graph Type</h2>
+            <p>When setting your goal, think about which graph type would fit your method of tracking the best.</p>
+            <br>
+            <div class="card" onclick="window.location.href='/add-goal/progress'">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center;">
+                    <div>
+                        <h2>Progress Bar</h2>
+                    </div>
+                    <div>
+                        <div id="progressText" style="text-align: center;"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <p style="text-align: center;">1-Variable Goal</p>
+                <p style="text-align: center;">Perfect for quantity based goals.</p>
+            </div>
+            <div class="card" onclick="window.location.href='/add-goal/line'">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center;">
+                    <div>
+                        <h2>Line Graph</h2>
+                    </div>
+                    <div>
+                        <canvas id="lineChart" width="100%" height="100%"></canvas>
+                    </div>
+                </div>
+                <br>
+                <p style="text-align: center;">2-Variable Goal</p>
+                <p style="text-align: center;">Great way to see progress over time</p>
+            </div>
+            <div class="card" ><!--onclick="window.location.href='/add-goal/bar'"-->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center;">
+                    <div>
+                        <h2>Bar Chart</h2>
+                    </div>
+                    <div>
+                        <canvas id="barChart" width="100%" height="100%"></canvas>
+                    </div>
+                </div>
+                <br>
+                <p style="text-align: center;">2-Variable Goal</p>
+                <p style="text-align: center;">Vertical and Horizontal Options</p>
+                <p style="text-align: center;">Great way to compare goal progress</p>
+            </div>
+            <div class="card" > <!--onclick="window.location.href='/add-goal/pie'"-->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center;">
+                    <div>
+                        <h2>Pie Chart Chart</h2>
+                    </div>
+                    <div>
+                        <canvas id="pieChart" width="100%" height="100%"></canvas>
+                    </div>
+                </div>
+                <br>
+                <p style="text-align: center;">Multi-Variable Goal</p>
+                <p style="text-align: center;">Great for segmented goals</p>
+            </div>
+            <div class="card" onclick="window.location.href='/add-goal/milestone'">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center;">
+                    <div>
+                        <h2>Milestone</h2>
+                    </div>
+                    <div>
+                        <div class="card" style="text-align: center;">
+                            <h2>Sobriety</h2>
+                            <p>95 Days</p>
+                            <small>Since Aug 3rd 2024</small>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <p style="text-align: center;">1-Variable Goal</p>
+                <p style="text-align: center;">Great for seeing progress</p>
+            </div>
+            <div class="card" ><!--onclick="window.location.href='/add-goal/scatter'"-->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center;">
+                    <div>
+                        <h2>Scatter Plot</h2>
+                    </div>
+                    <div>
+                        <canvas id="scatterChart" width="100%" height="100%"></canvas>
+                    </div>
+                </div>
+                <br>
+                <p style="text-align: center;">2-Variable Goal</p>
+                <p style="text-align: center;">Best for long-term goals</p>
+            </div>
+            <div class="card" onclick="window.location.href='/add-goal/number'">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center;">
+                    <div>
+                        <h2>Basic Number Goal</h2>
+                    </div>
+                    <div>
+                        <div class="card" style="text-align: center;">
+                            <h2>6/13</h2>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <p style="text-align: center;">1-Variable Goal</p>
+                <p style="text-align: center;">Great for simple tracking</p>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        // Example values (can be replaced with dynamic data)
+        const completed = 7;
+        const total = 10;
+
+        const percent = Math.round((completed / total) * 100);
+        const bar = document.getElementById("progressBar");
+        bar.style.width = percent + "%";
+        document.getElementById("progressText").textContent = completed + "/" + total;
+
+        const ctx = document.getElementById("lineChart").getContext("2d");
+        const lineChart = new Chart(ctx, {
+            type: "line",
+            data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            datasets: [{
+                label: "Paintings Made",
+                data: [2, 3, 5, 6, 8, 9, 10],
+                borderColor: "rgba(75, 192, 192, 1)",
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                fill: true,
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+            }]
+            },
+            options: {
+            responsive: true,
+            scales: {
+                y: {
+                beginAtZero: true,
+                ticks: { stepSize: 1 }
+                }
+            }
+            }
+        });
+
+         // Bar Chart
+        const ctxBar = document.getElementById("barChart").getContext("2d");
+        new Chart(ctxBar, {
+            type: "bar",
+            data: {
+            labels: ["Mon","Tue","Wed","Thurs","Fri"],
+            datasets: [{
+                label: "Minutes At Gym",
+                data: [45,30,0,60,20],
+                backgroundColor: "rgba(75, 192, 192, 1)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+            },
+            options: {
+            responsive: true,
+            scales: {
+                y: {
+                beginAtZero: true,
+                ticks: { stepSize: 1 }
+                }
+            }
+            }
+        });
+
+        // Pie Chart
+        const ctxPie = document.getElementById("pieChart").getContext("2d");
+        new Chart(ctxPie, {
+        type: "pie",
+        data: {
+            labels: ["Carbs", "Fats", "Protein"],
+            datasets: [{
+            data: [40, 25, 35],
+            backgroundColor: [
+                "rgba(255, 206, 86, 0.8)",   // carbs
+                "rgba(255, 99, 132, 0.8)",   // fats
+                "rgba(54, 162, 235, 0.8)"    // protein
+            ],
+            borderColor: "#000",
+            borderWidth: 1,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+            legend: {
+                position: "bottom"
+            },
+            datalabels: {
+                color: "#000",
+                font: {
+                weight: "normal",
+                size: 14
+                },
+                formatter: (value, ctx) => {
+                const data = ctx.chart.data.datasets[0].data;
+                const total = data.reduce((sum, val) => sum + val, 0);
+                const percentage = ((value / total) * 100).toFixed(0);
+                return percentage + "%";
+                }
+            }
+            }
+        },
+        plugins: [ChartDataLabels]
+        });
+
+        const ctxScatter = document.getElementById("scatterChart").getContext("2d");
+
+        new Chart(ctxScatter, {
+        type: "scatter",
+        data: {
+            datasets: [{
+            label: "Study Time vs Test Score",
+            data: [
+                { x: 1, y: 65 },
+                { x: 2, y: 70 },
+                { x: 3, y: 72 },
+                { x: 4, y: 78 },
+                { x: 5, y: 85 },
+                { x: 6, y: 88 },
+                { x: 7, y: 94 }
+            ],
+            backgroundColor: "rgba(75, 192, 192, 1)"
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+            title: {
+                display: true,
+                text: "Study Time vs Test Score"
+            }
+            },
+            scales: {
+            x: {
+                title: {
+                display: true,
+                text: "Hours Studied"
+                },
+                beginAtZero: true
+            },
+            y: {
+                title: {
+                display: true,
+                text: "Test Score"
+                },
+                beginAtZero: true,
+                max: 100
+            }
+            }
+        }
+        });
+
+    });
+    </script>
+    <footer>
+        <%- include("includes/footer", {page: 2})%>
+    </footer>
+</body>

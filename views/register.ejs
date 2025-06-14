@@ -1,0 +1,52 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header")%>
+    </header>
+    <main>
+        
+        <h1 style="text-align: center;">RenewYou</h1>
+        <h2 style="text-align: center;">Register</h2>
+        <br>
+        <form action="/register" method="POST" class="login-form">
+            <% if(errors) { %>
+                <% errors.forEach(error => { %>
+                    <div class="error"><%= error %></div>
+                    <br>
+                <% }) %>
+
+            <% } %>
+            <label for="firstname">First Name</label>
+            <br>
+            <input type="text" name="firstname" id="firstname" placeholder="John" autocomplete="off" required>
+            <br>
+            <label for="lastname">Last Name</label>
+            <br>
+            <input type="text" name="lastname" id="lastname" placeholder="Doe" autocomplete="off" required>
+            <br>
+            <label for="email">Email</label>
+            <br>
+            <input type="email" name="email" id="email" placeholder="Email" autocomplete="off" required>
+            <br>
+            <label for="password">Password</label>
+            <br>
+            <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required>
+            <br>
+            <label for="passwordcheck">Retype password</label>
+            <br>
+            <input type="password" name="passwordcheck" id="passwordcheck" placeholder="Retype Password" autocomplete="off" required>
+            <br>
+            <br>
+            <div style="text-align: center;">
+                <button>Register</button>
+            </div>
+        </form>
+        <br>
+        <p style="text-align: center;">Already have an account? <a href="/login">Login</a></p>
+    </main>
+    <footer>
+        <%- include("includes/footer")%>
+    </footer>
+</body>

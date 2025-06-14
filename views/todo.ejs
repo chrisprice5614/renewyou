@@ -1,0 +1,46 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header",{pagename: "To-Do List"})%>
+    </header>
+    <main>
+        <br>
+        <div style="text-align: center;">
+            <h1><%= user.name %>'s To-Do List</h1>
+        </div>
+
+        <% if(todo.length > 0) { %>
+            <% let iteration = 0; todo.forEach(item => { %>
+                <div class="card">
+                    <div style="display: grid; grid-template-columns: 5fr 1fr;">
+                        <h3><%= item %></h3>
+                        <div>
+                            <form action="/remove-todo" method="POST" style="display: inline;">
+                                <input type="hidden" name="index" value="<%= iteration %>">
+                                <button type="submit">X</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% iteration++; }) %>
+        <% } else { %>
+        <p style="margin: 6px;">Hooray, you have nothing on your list!</p>
+        <% } %>
+        <br>
+        <p style="margin: 6px;">It's best not to have too many items on your To-Do list! Add wisely!</p>
+        <form action="/add-todo" method="POST" class="login-form">
+            <label for="item">Add Item</label>
+            <br>
+            <input type="text" name="item" id="item" placeholder="Do the dishes." autocomplete="off" required>
+            <br>
+            <div style="text-align: center;">
+                <button>Add To-Do</button>
+            </div>
+        </form>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 0})%>
+    </footer>
+</body>

@@ -1,0 +1,117 @@
+<%
+
+
+// Handle query params
+const view = typeof viewParam !== 'undefined' ? viewParam : (query.view || 'today');
+const offset = typeof offsetParam !== 'undefined' ? offsetParam : (parseInt(query.offset || '0'));
+
+function formatDate(date) {
+  return new Date(date).toLocaleDateString('en-US');
+}
+function formatTime(date) {
+  return new Date(date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+}
+
+let today = new Date();
+%>
+
+<head>
+  <%- include("includes/head") %>
+</head>
+<body>
+  <header>
+    <%- include("includes/header", { pagename: "Calendar" }) %>
+  </header>
+
+  <main>
+    <div style="margin-bottom: 1em;">
+      <a href="?view=today&offset=0"><button>Today</button></a>
+      <a href="?view=month&offset=0"><button>This Month</button></a>
+
+      <a href="?view=<%= view %>&offset=<%= offset - 1 %>"><button>&lt;</button></a>
+      <a href="?view=<%= view %>&offset=<%= offset + 1 %>"><button>&gt;</button></a>
+    </div>
+
+    <% if (view === 'today') {
+         const currentDay = new Date(today);
+         currentDay.setDate(today.getDate() + offset);
+    %>
+    <div id="todayView">
+      <h2><%= currentDay.toDateString() === new Date().toDateString() ? 'Today' : formatDate(currentDay) %></h2>
+
+      <% for (let h = 0; h < 24; h++) {
+           const hour = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate(), h);
+           const timestamp = hour.getTime();
+      %>
+      <div class="hour-slot" data-url="/add-event/<%= timestamp %>" style="border: 1px solid #ccc; padding: 5px; cursor: pointer;">
+        <strong><%= h %>:00</strong>
+        <% calendar.forEach(event => {
+             const e = new Date(event.datetime);
+             if (e.getHours() === h && e.getDate() === currentDay.getDate()) { %>
+          <div class="card" onclick="event.stopPropagation(); window.location.href='/event/<%= index = calendar.indexOf(event) %>'"><%= event.title %> - <%= formatTime(e) %></div>
+        <% } }); %>
+      </div>
+      <% } %>
+    </div>
+
+    <% } else if (view === 'month') {
+         const shownMonth = new Date(today.getFullYear(), today.getMonth() + offset, 1);
+         const firstDay = new Date(shownMonth);
+         const lastDay = new Date(shownMonth.getFullYear(), shownMonth.getMonth() + 1, 0);
+    %>
+    <div id="monthView">
+      <h2><%= shownMonth.toLocaleString('default', { month: 'long' }) %> <%= shownMonth.getFullYear() %></h2>
+      <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; border: 1px solid #ccc;">
+        <% for (let i = 0; i < firstDay.getDay(); i++) { %>
+        <div style="min-height: 80px; background: #f0f0f0;"></div>
+        <% } %>
+
+        <% for (let d = 1; d <= lastDay.getDate(); d++) {
+             const date = new Date(shownMonth.getFullYear(), shownMonth.getMonth(), d);
+             const dateOffset = Math.floor((date - today) / (1000 * 60 * 60 * 24));
+        %>
+        <div class="day-cell" data-url="?view=today&offset=<%= dateOffset+1 %>" style="min-height: 80px; border: 1px solid #ddd; padding: 4px; cursor: pointer;">
+          <strong><%= d %></strong>
+          <% calendar.forEach(event => {
+               const e = new Date(event.datetime);
+               if (e.getDate() === d && e.getMonth() === shownMonth.getMonth()) { %>
+          <div class="card"><small><%= event.title %> @ <%= formatTime(e) %></small></div>
+          <% } }); %>
+        </div>
+        <% } %>
+      </div>
+    </div>
+    <% } %>
+  </main>
+
+  <style>
+    .card {
+      background: #f9f9f9;
+      border: 1px solid #ccc;
+      padding: 4px;
+      margin: 2px 0;
+      border-radius: 4px;
+      font-size: 0.85em;
+      cursor: default;
+    }
+    .hour-slot:hover,
+    .day-cell:hover {
+      background-color: #f3f3f3;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.hour-slot, .day-cell').forEach(div => {
+        div.addEventListener('click', () => {
+          const url = div.getAttribute('data-url');
+          if (url) window.location.href = url;
+        });
+      });
+    });
+  </script>
+
+  <footer>
+    <%- include("includes/footer", { page: 1 }) %>
+  </footer>
+</body>

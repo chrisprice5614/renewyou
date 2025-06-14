@@ -1,0 +1,28 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: "Add Entry"})%>
+    </header>
+    <main>
+        <br>
+        <h1 style="text-align: center;">Add Journal Entry</h1>
+        <form action="/add-journal/" method="POST" class="login-form">
+            <h2 style="text-align: center;">Log Reflection</h2>
+            <label for="title">Entry Name</label>
+            <br>
+            <input type="text" name="title" id="title" placeholder="Today's Journal Entry" autocomplete="off" required>
+            <br>
+            <label for="text">Entry</label>
+            <br>
+            <textarea name="text" id="text" required style="height: 12rem;"></textarea>
+            <div style="text-align: center;">
+                <button>Add Entry</button>
+            </div>
+        </form>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 0})%>
+    </footer>
+</body>

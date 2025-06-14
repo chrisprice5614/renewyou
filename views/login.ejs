@@ -1,0 +1,39 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header")%>
+    </header>
+    <main>
+        <h1 style="text-align: center;">RenewYou</h1>
+        <h2 style="text-align: center;">Login</h2>
+        <br>
+        <form action="/login" method="POST" class="login-form">
+            <% if(errors) { %>
+                <% errors.forEach(error => { %>
+                    <div class="error"><%= error %></div>
+                    <br>
+                <% }) %>
+
+            <% } %>
+            <label for="email">Email</label>
+            <br>
+            <input type="email" name="email" id="email" placeholder="Email" autocomplete="off" required>
+            <br>
+            <label for="password">Password</label>
+            <br>
+            <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required>
+            <br>
+            <br>
+            <div style="text-align: center;">
+                <button>Login</button>
+            </div>
+        </form>
+        <br>
+        <p style="text-align: center;">Don't have an account? <a href="/register">Register</a></p>
+    </main>
+    <footer>
+        <%- include("includes/footer")%>
+    </footer>
+</body>

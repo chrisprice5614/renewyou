@@ -1,0 +1,29 @@
+<% if(user) { %>
+    <% if(typeof page === "undefined") page = -1%>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; margin-top: 6px; margin-bottom: 6px;">
+        <div style="text-align: center;" onclick="window.location.href='/'">
+                <% let iconStyle = 'font-size: 4ch;' %>
+                <% if (page == 0) { iconStyle += ' color: green;' } %>
+
+                <ion-icon name="home-outline" style="<%= iconStyle %>"></ion-icon>
+        </div>
+        <div style="text-align: center;" onclick="window.location.href='/calendar'">
+            <% iconStyle = 'font-size: 4ch;' %>
+            <% if (page == 1) { iconStyle += ' color: green;' } %>
+
+            <ion-icon name="calendar-outline" style="<%= iconStyle %>"></ion-icon>
+        </div>
+        <div style="text-align: center;" onclick="window.location.href='/goals'">
+            <% iconStyle = 'font-size: 4ch;' %>
+            <% if (page == 2) { iconStyle += ' color: green;' } %>
+
+            <ion-icon name="stats-chart-outline" style="<%= iconStyle %>"></ion-icon>
+        </div>
+        <div style="text-align: center;" onclick="window.location.href='/journey'">
+            <% iconStyle = 'font-size: 4ch;' %>
+            <% if (page == 3) { iconStyle += ' color: green;' } %>
+
+            <ion-icon name="bicycle-outline" style="<%= iconStyle %>"></ion-icon>
+        </div>
+    </div>
+<% } %>

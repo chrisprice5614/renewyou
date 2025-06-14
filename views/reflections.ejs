@@ -1,0 +1,57 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: "Reflections"})%>
+    </header>
+    <main>
+        <br>
+        <div class="card" onclick="window.location.href='/reflections/mood'" style="padding-top: 16px; padding-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; align-items: center;">
+                <div style="text-align: center;">
+                    <ion-icon name="happy-outline" style="font-size: 4ch;"></ion-icon>
+                </div>
+                <div>
+                    <h2>Mood</h2>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card" onclick="window.location.href='/reflections/victories'" style="padding-top: 16px; padding-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; align-items: center;">
+                <div style="text-align: center;">
+                    <ion-icon name="accessibility-outline" style="font-size: 4ch;"></ion-icon>
+                </div>
+                <div>
+                    <h2>Victories</h2>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card" onclick="window.location.href='/reflections/temptations'" style="padding-top: 16px; padding-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; align-items: center;">
+                <div style="text-align: center;">
+                    <ion-icon name="alert-outline" style="font-size: 4ch;"></ion-icon>
+                </div>
+                <div>
+                    <h2>Temptations</h2>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card" onclick="window.location.href='/reflections/growth'" style="padding-top: 16px; padding-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; align-items: center;">
+                <div style="text-align: center;">
+                    <ion-icon name="analytics-outline" style="font-size: 4ch;"></ion-icon>
+                </div>
+                <div>
+                    <h2>Growth</h2>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 0})%>
+    </footer>
+</body>

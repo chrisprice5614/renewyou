@@ -1,0 +1,404 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<% const goal = goals[goalIndex] %>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: goal.title})%>
+    </header>
+    <main>
+        <br>
+        <h1 style="text-align: center;"><%= goal.title %></h1>
+        <br>
+        <div style="margin: 8px">
+            <p><%= goal.description %></p>
+        </div>
+        <div style="margin: 8px">
+            <p>Why this goal: <%= goal.why %></p>
+            <br>
+            <% if(goal.type != "milestone") { %>
+            <div style="text-align: center; display: grid; grid-template-columns: 1fr 1fr;">
+                <div>
+                    <p>Start Date</p>
+                    <p><%= new Date(goal.startdate).toLocaleDateString('en-US') %></p>
+                </div>
+                <div>
+                    <p>End Date</p>
+                    <p><%= new Date(goal.goaldate).toLocaleDateString('en-US') %></p>
+                </div>
+            </div>
+            <% } %>
+            <br>
+            <div style="text-align: center;">
+                <% if(goal.type != "milestone") { %>
+                    <% if(goal.goaldate > Date.now()) { %>
+                        <h2><%= Math.floor((new Date(goal.goaldate) - Date.now()) / (1000 * 60 * 60 * 24)) %> Days left</h2>
+                    <% } else { %>
+                        <h2>Goal date has arrived!</h2>
+                    <% } %>
+                <% } %>
+            </div>
+            <br>
+            <% if(goal.type == "milestone") { %>
+                <div style="text-align: center;">
+                <p>You've kept this goal since</p>
+                <h2><%= new Date(goal.startdate).toLocaleDateString('en-US') %></h2>
+                        <h2><%
+                            const startDate = new Date(goal.startdate);
+                            const today = new Date();
+                            const diffTime = today - startDate; // difference in milliseconds
+                            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                            let output = "";
+
+                            if (diffDays < 7) {
+                                output = diffDays + (diffDays === 1 ? " day" : " days");
+                            } else if (diffDays < 30) {
+                                const weeks = Math.floor(diffDays / 7);
+                                output = weeks + (weeks === 1 ? " week" : " weeks");
+                            } else if (diffDays < 365) {
+                                const months = Math.floor(diffDays / 30);
+                                output = months + (months === 1 ? " month" : " months");
+                            } else {
+                                const years = Math.floor(diffDays / 365);
+                                output = years + (years === 1 ? " year" : " years");
+                            }
+                            %>
+                            <%= output %>
+                        </h2>
+                        <br>
+                        <button onclick="sendData()">Reset Date to Today</button>
+                        <br>
+                        <br>
+                        <br>
+                </div>
+                <script>
+                    function sendData() {
+                        navigator.sendBeacon("/update-goal/<%= goalIndex %>", JSON.stringify({
+                        number: "3"
+
+
+                        }));
+
+                        window.location.reload();
+
+                    }
+                </script>
+            <% } %>
+            <% if(goal.type == "progress") { %>
+                <div id="progressText" style="text-align: center;"></div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+                <br>
+                <div style="text-align: center; display: grid; grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <button 
+                            ontouchstart="startDecrement(); decrement();" 
+                            ontouchend="stopDecrement()" 
+                            ontouchcancel="stopDecrement()"><</button>
+                    </div>
+                    <div>
+                        <button
+                            ontouchstart="startIncrement(); increment();" 
+                            ontouchend="stopIncrement()" 
+                            ontouchcancel="stopIncrement()">></button>
+                    </div>
+                </div>
+                <br>
+                
+
+                <script>
+
+                    let start = <%= goal.start %>;
+                    let target = <%= goal.target %>;
+
+                    document.addEventListener("DOMContentLoaded", function () {
+                        // Example values (can be replaced with dynamic data)
+                        const completed = Number(start);
+                        const total = Number(target);
+
+                        const percent = Math.round((completed / total) * 100);
+                        const bar = document.getElementById("progressBar");
+                        bar.style.width = percent + "%";
+                        <% if(goal.percent) { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + ((completed / total) * 100).toFixed(1) + "%";
+                        <% } else { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + completed + "/" + total;
+                        <% } %>
+                        bar.style.backgroundColor = goal.color;
+                    })
+
+                    function decrement() {
+                        if(start > 0) {start --}
+
+                        const completed = Number(start);
+                        const total = Number(target);
+
+                        const percent = Math.round((completed / total) * 100);
+                        const bar = document.getElementById("progressBar");
+                        bar.style.width = percent + "%";
+                        <% if(goal.percent) { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + ((completed / total) * 100).toFixed(1) + "%";
+                        <% } else { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + completed + "/" + total;
+                        <% } %>
+                    }
+
+                    let intervalId;
+                    let timeoutId;
+
+                    let intervalId2;
+                    let timeoutId2;
+
+                    function startDecrement() {
+                        // Start the interval after 1 second delay
+                        timeoutId = setTimeout(() => {
+                        decrement(); // First call after 1 second
+                        intervalId = setInterval(decrement, 100); // Repeat every 200ms
+                        }, 1000);
+                    }
+
+                    function stopDecrement() {
+                        clearTimeout(timeoutId);
+                        clearInterval(intervalId);
+                    }
+
+                    function startIncrement() {
+                        // Start the interval after 1 second delay
+                        timeoutId2 = setTimeout(() => {
+                        increment(); // First call after 1 second
+                        intervalId2 = setInterval(increment, 100); // Repeat every 200ms
+                        }, 1000);
+                    }
+
+                    function stopIncrement() {
+                        clearTimeout(timeoutId2);
+                        clearInterval(intervalId2);
+                    }
+
+                    function increment() {
+                        if(start < target) {start ++}
+
+                        const completed = Number(start);
+                        const total = Number(target);
+
+                        const percent = Math.round((completed / total) * 100);
+                        const bar = document.getElementById("progressBar");
+                        bar.style.width = percent + "%";
+                        <% if(goal.percent) { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + ((completed / total) * 100).toFixed(1) + "%";
+                        <% } else { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + completed + "/" + total;
+                        <% } %>
+                    }
+
+                    window.addEventListener("beforeunload", function () {
+                        navigator.sendBeacon("/update-goal/<%= goalIndex %>", JSON.stringify({
+                        number: start
+                        }));
+                    });
+                </script>
+            <% } %>
+
+
+            <% if(goal.type == "number") { %>
+                <div id="progressText" style="text-align: center;"></div>
+                </div>
+                <br>
+                <div style="text-align: center; display: grid; grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <button 
+                            ontouchstart="startDecrement(); decrement();" 
+                            ontouchend="stopDecrement()" 
+                            ontouchcancel="stopDecrement()"><</button>
+                    </div>
+                    <div>
+                        <button
+                            ontouchstart="startIncrement(); increment();" 
+                            ontouchend="stopIncrement()" 
+                            ontouchcancel="stopIncrement()">></button>
+                    </div>
+                </div>
+                <br>
+                
+
+                <script>
+
+                    let start = <%= goal.start %>;
+                    let target = <%= goal.target %>;
+
+                    document.addEventListener("DOMContentLoaded", function () {
+                        // Example values (can be replaced with dynamic data)
+                        const completed = Number(start);
+                        const total = Number(target);
+
+                        const percent = Math.round((completed / total) * 100);
+
+                        <% if(goal.percent) { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + ((completed / total) * 100).toFixed(1) + "%";
+                        <% } else { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + completed + "/" + total;
+                        <% } %>
+
+                    })
+
+                    function decrement() {
+                        if(start > 0) {start --}
+
+                        const completed = Number(start);
+                        const total = Number(target);
+
+                        const percent = Math.round((completed / total) * 100);
+
+                        <% if(goal.percent) { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + ((completed / total) * 100).toFixed(1) + "%";
+                        <% } else { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + completed + "/" + total;
+                        <% } %>
+                    }
+
+                    let intervalId;
+                    let timeoutId;
+
+                    let intervalId2;
+                    let timeoutId2;
+
+                    function startDecrement() {
+                        // Start the interval after 1 second delay
+                        timeoutId = setTimeout(() => {
+                        decrement(); // First call after 1 second
+                        intervalId = setInterval(decrement, 100); // Repeat every 200ms
+                        }, 1000);
+                    }
+
+                    function stopDecrement() {
+                        clearTimeout(timeoutId);
+                        clearInterval(intervalId);
+                    }
+
+                    function startIncrement() {
+                        // Start the interval after 1 second delay
+                        timeoutId2 = setTimeout(() => {
+                        increment(); // First call after 1 second
+                        intervalId2 = setInterval(increment, 100); // Repeat every 200ms
+                        }, 1000);
+                    }
+
+                    function stopIncrement() {
+                        clearTimeout(timeoutId2);
+                        clearInterval(intervalId2);
+                    }
+
+                    function increment() {
+                        if(start < target) {start ++}
+
+                        const completed = Number(start);
+                        const total = Number(target);
+
+                        const percent = Math.round((completed / total) * 100);
+
+                        <% if(goal.percent) { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + ((completed / total) * 100).toFixed(1) + "%";
+                        <% } else { %>
+                            document.getElementById("progressText").textContent = "<%= goal.variable1 %>" + " " + completed + "/" + total;
+                        <% } %>
+                    }
+
+                    window.addEventListener("beforeunload", function () {
+                        navigator.sendBeacon("/update-goal/<%= goalIndex %>", JSON.stringify({
+                        number: start
+                        }));
+                    });
+                </script>
+            <% } %>
+
+            <% if(goal.type == "line") { %>
+
+                    <canvas id="lineChart" width="100%" height="100%"></canvas>
+                    <br>
+                    <form onsubmit="sendData(event)" class="login-form">
+                        <label for="number">Log Number</label>
+                        <br>
+                        <input type="number" name="number" id="number" placeholder="8" required>
+                        <br>
+                        <div style="text-align: center;">
+                            <button>Log</button>
+                        </div>
+                    </form>
+
+                    <script>
+                        function sendData() {
+                            navigator.sendBeacon("/update-goal/<%= goalIndex %>", JSON.stringify({
+                            number: document.getElementById("number").value
+                            }));
+
+                           
+                        }
+                        const ctx = document.getElementById("lineChart").getContext("2d");
+                        const lineChart = new Chart(ctx, {
+                            type: "line",
+                            data: {
+                            datasets: [{
+                                label: "<%= goal.variable1 %>",
+                                data: <%- JSON.stringify(goal.data) %>,
+                                borderColor: "rgba(0, 255, 0, 1)",
+                                backgroundColor: "rgba(0, 255, 0, 0.2)",
+                                tension: 0.15,
+                                fill: true,
+                                pointRadius: 5,
+                                pointHoverRadius: 7
+                            }]
+                            },
+                            options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                type: "time",
+                                time: {
+                                    unit: "day",
+                                    tooltipFormat: "MMM dd"
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Date"
+                                }
+                                },
+                                y: {
+                                beginAtZero: true,
+                                ticks: { stepSize: 1 }
+                                }
+                            }
+                            }
+                        });
+
+                        
+                    // Now set min and max AFTER chart is created
+                    const dates = lineChart.data.datasets[0].data.map(d => new Date(d.x).getTime());
+                    const minDate = new Date(Math.min(...dates) - 86400000); // one day before earliest
+                    const maxDate = new Date(Math.max(...dates) + 86400000); // one day after latest
+
+                    lineChart.options.scales.x.min = minDate;
+                    lineChart.options.scales.x.max = maxDate;
+
+                    lineChart.update();
+                    </script>
+                <% } %>
+            <div style="text-align: center;">
+                <a href="/delete-goal/<%= goalIndex %>"><button>Delete Goal</button></a>
+            </div>
+        </div>
+    </main>
+    <script>
+        window.addEventListener("beforeunload", function () {
+            navigator.sendBeacon("/your-endpoint", JSON.stringify({
+            path: window.location.pathname,
+            message: "User left the page"
+            }));
+        });
+    </script>
+    <footer>
+        <%- include("includes/footer", {page: 2})%>
+    </footer>
+</body>

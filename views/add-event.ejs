@@ -1,0 +1,46 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: "Add Event"})%>
+    </header>
+    <main>
+        <form action="/add-event" method="post" class="login-form">
+            <h1 style="text-align: center;">Add Event</h1>
+
+            <label for="title">Title</label>
+            <br>
+            <input type="text" name="title" id="title" placeholder="Gym workout" autocomplete="off" required>
+            <br>
+            
+            <label for="description">Goal Description</label>
+            <br>
+            <textarea name="description" id="description" required placeholder="Hang with friends while lifting weights."></textarea>
+            <br>
+
+            <label for="location">Location</label>
+            <br>
+            <input type="text" name="location" id="location" placeholder="123 Fakestreet" autocomplete="off" required>
+            <br>
+            <label for="datetime">Time and Date</label>
+            <br>
+            <% const dt = new Date(Number(defaultTime)); %>
+            <% const datetimeLocalValue = dt.toISOString().slice(0, 16); %>
+            <input type="datetime-local" name="datetime" id="datetime" required value="<%= datetimeLocalValue %>">
+            <br>
+
+            <label for="alarm">Minutes to Remind You Before Event</label>
+            <br>
+            <input type="number" name="alarm" id="alarm" placeholder="30" autocomplete="off" required>
+            <br>
+
+            <div style="text-align: center;">
+                <button>Add Event</button>
+            </div>
+        </form>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 1})%>
+    </footer>
+</body>

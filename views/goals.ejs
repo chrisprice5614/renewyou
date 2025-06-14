@@ -1,0 +1,177 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: "Goals"})%>
+    </header>
+    <main>
+        <div style="width: 30%; position: fixed; bottom: 80px; right: 8px;" onclick="window.location.href='/add-goal'">
+            <div class="card">+ Add Goal</div>
+        </div>
+        <% if(goals.length > 0) { let iterator = 0; %>
+            <% goals.forEach(item => { %>
+                <% if(item.type == "progress") { %>
+                    <div class="card" onclick="window.location.href='/goal/<%= iterator %>'">
+                        <div style="display: grid; grid-template-columns: 3fr 1fr;">
+                            <h2><%= item.title %></h2>
+                            <h2><%= new Date(item.goaldate).toLocaleDateString('en-US') %></h2>
+                        </div>
+                        <div>
+                        <div id="progressText<%= iterator %>" style="text-align: center;"></div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar<%= iterator %>"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            // Example values (can be replaced with dynamic data)
+                            const completed = Number(<%= item.start %>);
+                            const total = Number(<%= item.target %>);
+
+                            const percent = Math.round((completed / total) * 100);
+                            const bar = document.getElementById("progressBar<%= iterator %>");
+                            bar.style.width = percent + "%";
+                            <% if(item.percent) { %>
+                                document.getElementById("progressText<%= iterator %>").textContent = "<%= item.variable1 %>" + " " + ((completed / total) * 100).toFixed(1) + "%";
+                            <% } else { %>
+                                document.getElementById("progressText<%= iterator %>").textContent = "<%= item.variable1 %>" + " " + completed + "/" + total;
+                            <% } %>
+                            bar.style.backgroundColor = item.color;
+                        })
+                    </script>
+                <% } %>
+
+                <% if(item.type == "number") { %>
+                    <div class="card" onclick="window.location.href='/goal/<%= iterator %>'">
+                        <div style="display: grid; grid-template-columns: 3fr 1fr;">
+                            <h2><%= item.title %></h2>
+                            <h2><%= new Date(item.goaldate).toLocaleDateString('en-US') %></h2>
+                        </div>
+                        <div>
+                        <div id="progressText<%= iterator %>" style="text-align: center;"></div>
+
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            // Example values (can be replaced with dynamic data)
+                            const completed = Number(<%= item.start %>);
+                            const total = Number(<%= item.target %>);
+
+                            const percent = Math.round((completed / total) * 100);
+
+                            <% if(item.percent) { %>
+                                document.getElementById("progressText<%= iterator %>").textContent = "<%= item.variable1 %>" + " " + ((completed / total) * 100).toFixed(1) + "%";
+                            <% } else { %>
+                                document.getElementById("progressText<%= iterator %>").textContent = "<%= item.variable1 %>" + " " + completed + "/" + total;
+                            <% } %>
+                            bar.style.backgroundColor = item.color;
+                        })
+                    </script>
+                <% } %>
+
+                <% if(item.type == "line") { %>
+                    <div class="card" onclick="window.location.href='/goal/<%= iterator %>'">
+                        <div style="display: grid; grid-template-columns: 3fr 1fr;">
+                            <h2><%= item.title %></h2>
+                            <h2><%= new Date(item.goaldate).toLocaleDateString('en-US') %></h2>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 3fr 1fr;">
+                            <div></div>
+                            <div>
+                                <canvas id="lineChart<%= iterator %>" width="100%" height="100%"></canvas>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <script>
+                        const ctx = document.getElementById("lineChart<%= iterator %>").getContext("2d");
+                        const lineChart = new Chart(ctx, {
+                            type: "line",
+                            data: {
+                            datasets: [{
+                                label: "<%= item.variable1 %>",
+                                data: <%- JSON.stringify(item.data) %>,
+                                borderColor: "rgba(0, 255, 0, 1)",
+                                backgroundColor: "rgba(0, 255, 0, 0.2)",
+                                tension: 0.15,
+                                fill: true,
+                                pointRadius: 5,
+                                pointHoverRadius: 7
+                            }]
+                            },
+                            options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                type: "time",
+                                time: {
+                                    unit: "day",
+                                    tooltipFormat: "MMM dd"
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Date"
+                                }
+                                },
+                                y: {
+                                beginAtZero: true,
+                                ticks: { stepSize: 1 }
+                                }
+                            }
+                            }
+                        });
+
+                        
+                        // Now set min and max AFTER chart is created
+                        const dates = lineChart.data.datasets[0].data.map(d => new Date(d.x).getTime());
+                        const minDate = new Date(Math.min(...dates) - 86400000); // one day before earliest
+                        const maxDate = new Date(Math.max(...dates) + 86400000); // one day after latest
+
+                        lineChart.options.scales.x.min = minDate;
+                        lineChart.options.scales.x.max = maxDate;
+
+                        lineChart.update();
+                    </script>
+                <% } %>
+                    
+                <% if(item.type == "milestone") { %>
+                    <div class="card" onclick="window.location.href='/goal/<%= iterator %>'" style="display: grid; grid-template-columns: 1fr 1fr; align-items: center; text-align: center;">
+                        <h2><%= item.title %></h2>
+                        <div>
+                            <p><%= new Date(item.startdate).toLocaleDateString('en-US') %></p>
+                            <p><%
+                                const startDate = new Date(item.startdate);
+                                const today = new Date();
+                                const diffTime = today - startDate; // difference in milliseconds
+                                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                                let output = "";
+
+                                if (diffDays < 7) {
+                                    output = diffDays + (diffDays === 1 ? " day" : " days");
+                                } else if (diffDays < 30) {
+                                    const weeks = Math.floor(diffDays / 7);
+                                    output = weeks + (weeks === 1 ? " week" : " weeks");
+                                } else if (diffDays < 365) {
+                                    const months = Math.floor(diffDays / 30);
+                                    output = months + (months === 1 ? " month" : " months");
+                                } else {
+                                    const years = Math.floor(diffDays / 365);
+                                    output = years + (years === 1 ? " year" : " years");
+                                }
+                                %>
+                                <%= output %>
+                            </p>
+                        </div>
+                    </div>
+                <% } %>
+            <% iterator++;}) %>
+        <% } %>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 2})%>
+    </footer>
+</body>

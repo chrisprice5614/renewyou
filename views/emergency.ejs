@@ -1,0 +1,40 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: "Emergency"})%>
+    </header>
+    <main>
+        <br>
+        <div class="card" style="padding-top: 16px; padding-bottom: 16px" onclick="window.location.href='/photo-album'">
+            <div style="display:grid; grid-template-columns: 1fr 3fr; align-items: center;">
+                <div style="text-align: center;">
+                    <ion-icon name="image-outline" style="font-size: 4ch;"></ion-icon>
+                </div>
+                <h2>Photo Album</h2>
+            </div>
+        </div>
+        <br>
+        <div class="card" style="padding-top: 16px; padding-bottom: 16px" onclick="window.location.href='/contacts'">
+            <div style="display:grid; grid-template-columns: 1fr 3fr; align-items: center;">
+                <div style="text-align: center;">
+                    <ion-icon name="call-outline" style="font-size: 4ch;"></ion-icon>
+                </div>
+                <h2>Emergency Contact</h2>
+            </div>
+        </div>
+        <br>
+        <div class="card" style="padding-top: 16px; padding-bottom: 16px" onclick="window.location.href='/calming-vibes'">
+            <div style="display:grid; grid-template-columns: 1fr 3fr; align-items: center;">
+                <div style="text-align: center;">
+                    <ion-icon name="sunny-outline" style="font-size: 4ch;"></ion-icon>
+                </div>
+                <h2>Calming Vibes</h2>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 0})%>
+    </footer>
+</body>

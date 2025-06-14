@@ -1,0 +1,85 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: "Emergency Contact"})%>
+    </header>
+    <main>
+        <div class="card">
+            <div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center;" onclick="window.location.href='tel:+18006624357'">
+                    <h2>SAMSHA</h2>
+                    <div>
+                        <h2>1-800-662-4357</h2>
+                    </div>
+                </div>
+                <p>Substance Abuse and Mental Health Services Hotline</p>
+            </div>
+        </div>
+        <% if(contacts.length > 0) { let iteration = 0; %>
+            <% contacts.forEach(item => { %>
+            <div class="card">
+                <div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center;" onclick="window.location.href='tel:+<%= item.phone.replace(/\D/g, ''); %>'">
+                        <h2><%= item.name %></h2>
+                        <div>
+                            <h2><%= item.number %></h2>
+                        </div>
+                    </div>
+                    <p><%= item.description %></p>
+                </div>
+                <div style="text-align: center;">
+                    <a href="/remove-contact/<%= iteration %>"><button>Remove Contact</button></a>
+                </div>
+            </div>
+            <% iteration++; }) %>
+        <% } %>
+        <br>
+        <% if(contacts.length < 5) { %>
+            <form action="/add-contact" method="POST" class="login-form">
+                <h2 style="text-align: center;">Add Emergency Contact</h2>
+                <label for="name">Contact Name</label>
+                <br>
+                <input type="text" name="name" id="name" placeholder="John Doe" autocomplete="off" required>
+                <br>
+                <label for="phone">Phone Number</label>
+                <br>
+                <input type="phone" name="phone" id="phone" placeholder="(555) 555 - 5555" autocomplete="off" required>
+                <br>
+                <label for="description">Description</label>
+                <br>
+                <input type="text" name="description" id="description" placeholder="Close friend." autocomplete="off" required>
+                <br>
+                <div style="text-align: center;">
+                    <button>Add Contact</button>
+                </div>
+            </form>
+        <% } %>
+    </main>
+    <script>
+        const phoneInput = document.getElementById("phone");
+
+        phoneInput.addEventListener("input", function (e) {
+            let numbers = this.value.replace(/\D/g, ''); // remove all non-digit characters
+            if (numbers.length > 10) numbers = numbers.slice(0, 10); // max 10 digits
+
+            let formatted = numbers;
+
+            if (numbers.length > 0) {
+            formatted = '(' + numbers.slice(0, 3);
+            }
+            if (numbers.length >= 4) {
+            formatted += ') ' + numbers.slice(3, 6);
+            }
+            if (numbers.length >= 7) {
+            formatted += ' - ' + numbers.slice(6, 10);
+            }
+
+            this.value = formatted;
+        });
+        </script>
+    <footer>
+        <%- include("includes/footer", {page: 0})%>
+    </footer>
+</body>

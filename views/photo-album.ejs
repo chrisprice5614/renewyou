@@ -1,0 +1,45 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: "Photo Album"})%>
+    </header>
+    <main>
+        <br>
+        <h1 style="text-align: center;">Photo Album</h1>
+        <br>
+        <form action="/upload-image" method="POST" class="login-form" enctype="multipart/form-data">
+            <h2 style="text-align: center;">Upload Photo</h2>
+            <br>
+            <div style="text-align: center;">
+                <small>Upload photos that make you calm and happy.</small>
+            </div>
+            <br>
+            <label for="file">Upload Image</label>
+            <br>
+            <input type="file" accept="image/*" name="image" id="iamge">
+            <br>
+            <div style="text-align: center;">
+                <button>Upload Photo</button>
+            </div>
+        </form>
+        <br>
+        <% if(album.length > 0) { let iterator = 0; %>
+            <% album.forEach(item => { %>
+                <div style="text-align: center;">
+                    <img src="/img/<%= item %>" width="90%">
+                    <br>
+                    <br>
+                    <a href="/remove-image/<%= iterator %>"><button>Remove Image</button></a>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            <% iterator++; }) %>
+        <% } %>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 0})%>
+    </footer>
+</body>

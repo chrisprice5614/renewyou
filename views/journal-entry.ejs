@@ -1,0 +1,22 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header", {pagename: "Journal Entry"})%>
+    </header>
+    <main>
+        <br>
+        <h1 style="text-align: center;"><%= entry.title %></h1>
+        <div style="text-align: center;">
+            <small><%= new Date(entry.datetime).toLocaleDateString('en-US', { weekday: 'long' }) %> | </small>
+            <small><%= new Date(entry.datetime).toLocaleDateString('en-US') %> | </small>
+            <small><%= new Date(entry.datetime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></small>
+        </div>
+        <br>
+        <p style="margin: 6px"><%= entry.text %></p>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 0})%>
+    </footer>
+</body>

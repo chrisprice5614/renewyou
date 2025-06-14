@@ -1,0 +1,59 @@
+<head>
+    <%- include("includes/head")%>
+</head>
+<body>
+    <header>
+        <%- include("includes/header")%>
+    </header>
+    <main>
+        <div class="card">
+            <h2>Goals</h2>
+            <% if(goals.length> 0) { %>
+            <div class="card" onclick="window.location.href='/goal/0'">
+                
+                <div style="display: grid; grid-template-columns: 3fr 1fr;">
+                    <div>
+                        <h2><%= goals[0].title %></h2>
+                    </div>
+                    <div>
+                        <p>Goal Date</p>
+                        <%= new Date(goals[0].goaldate).toLocaleDateString('en-US') %>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+        <br>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
+            <div style="text-align: center;" onclick="window.location.href='/reflections'">
+                <ion-icon name="checkbox-outline" style="font-size: 4ch;"></ion-icon>
+                <br>
+                <small>Reflections</small>
+            </div>
+            <div style="text-align: center;" onclick="window.location.href='/journal'">
+                <ion-icon name="book-outline" style="font-size: 4ch;"></ion-icon>
+                <br>
+                <small>Journal</small>
+            </div>
+            <div style="text-align: center;" onclick="window.location.href='/emergency'">
+                <ion-icon name="alert-outline" style="font-size: 4ch;"></ion-icon>
+                <br>
+                <small>Emergency</small>
+            </div>
+        </div>
+        <br>
+        <div class="card" onclick="window.location.href='/todo'">
+            <h2>To-Do List</h2>
+            <% if(todo.length > 0) { %>
+                <% todo.forEach(item => { %>
+                    <p>• <%= item %></p>
+                <% }) %>
+            <% } else { %>
+            <p>Hooray, you have nothing on your list!</p>
+            <% } %>
+        </div>
+    </main>
+    <footer>
+        <%- include("includes/footer", {page: 0})%>
+    </footer>
+</body>

@@ -1,0 +1,166 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.4em;
+}
+
+:root{
+    --border-radius: 8px;
+    --border-color: #171817;
+    --color-highlight: #A3D9A5;
+    --color-header: #2D2F36;
+    --color-accent: #FFB493;
+    --color-sky: #C5DFF8;
+    --color-cloud: #F9FAFB;
+    --color-stone: #B0B8C1;
+    --color-background: #f6fbff;
+}
+
+
+h1, h2, h3, h4, h5, h6{
+    font-family: "Georgia", serif;
+}
+
+body{
+    background-color: var(--color-background);
+}
+
+
+.login-form{
+    margin: 8px;
+    border: solid 0.75px var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 16px;
+    background-color: var(--color-cloud);
+    box-shadow: 0px 0px 4px #000;
+}
+
+.login-form input[type="text"], .login-form input[type="password"], .login-form input[type="email"], .login-form input[type="phone"], .login-form input[type="date"], .login-form input[type="datetime"], .login-form input[type="number"], .login-form select, .login-form input[type="datetime-local"]{
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    padding: 6px;
+    border: solid 0.75px var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: inset 0px 0px 2px #000;
+    background-color: transparent;
+}
+
+.login-form input[type="color"] {
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    padding: 2px;
+    border: solid 0.75px var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: inset 0px 0px 2px #000;
+    background-color: transparent;
+}
+
+.login-form textarea{
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    height: 6rem;
+    padding: 6px;
+    border: solid 0.75px var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: inset 0px 0px 2px #000;
+    background-color: transparent;
+    font-family: "Inter", sans-serif;
+}
+
+button{
+    padding: 12px;
+    border: solid 0.75px var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--color-highlight);
+    font-weight: 400;
+    box-shadow: 0px 0px 4px #000;
+
+}
+
+.progress-container {
+    width: 100%;
+    background-color: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 24px;
+    border: solid 0.75px var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #4caf50; /* You can change this */
+    transition: width 0.4s ease;
+}
+
+.error {
+    padding: 6px;
+    margin-top: 4px;
+    border: solid 0.75px var(--color-accent);
+    border-radius: var(--border-radius);
+}
+
+
+header{
+    background-color: var(--color-sky);
+    border-bottom: solid 0.5px var(--color-header);
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+footer{
+    background-color: var(--color-sky);
+    border-top: solid 0.5px var(--color-header);
+    position: fixed; bottom: 0; left: 0; width: 100%;
+}
+
+.slide-menu {
+    position: fixed;
+    top: 0;
+    left: -290px;
+    width: 250px;
+    height: 100%;
+    top: 48px;
+    background-color: #f4f4f4;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+.slide-menu.open {
+    left: 0;
+}
+
+.slide-menu a {
+    display: block;
+    margin: 0.5rem 0;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.card{
+    border: solid 0.75px var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 4px;
+    margin: 8px;
+    background-color: var(--color-accent);
+    box-shadow: 1px 1px 3px #000;
+}
+
+main{
+    padding-bottom: 80px;
+}
